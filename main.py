@@ -33,7 +33,7 @@ def checkUpdate(au: ApexUser):
             if newRecord.lastUpdate > oldRecord.lastUpdate and newRecord.rank > oldRecord.rank:
                 print("posted")
                 discord.post(
-                    content=f"{newRecord.au.uid} has reached rank {oldRecord.rank}→{newRecord.rank} \N{SMILING FACE WITH OPEN MOUTH AND TIGHTLY-CLOSED EYES}")
+                    content=f"{newRecord.au.uid} のランクが上がりました！ {oldRecord.rank}→{newRecord.rank} \N{SMILING FACE WITH OPEN MOUTH AND TIGHTLY-CLOSED EYES}")
 
 
 def main():
