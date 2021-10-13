@@ -13,8 +13,9 @@ load_dotenv(dotenv_path)
 
 
 def fetchUserData(au: ApexUser) -> dict:
+    API_ENDPOINT = os.environ.get("API_ENDPOINT")
     API_KEY = os.environ.get("API_KEY")
-    res = requests.get(f"https://public-api.tracker.gg/v2/apex/standard/profile/{au.platform}/{au.uid}?TRN-Api-Key={API_KEY}")
+    res = requests.get(f"{API_ENDPOINT}/standard/profile/{au.platform}/{au.uid}?TRN-Api-Key={API_KEY}")
 
     if res.status_code != 200:
         return {"status": res.status_code, "user_data": None}
