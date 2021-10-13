@@ -6,6 +6,9 @@ class ApexUser:
         self.uid = uid
         self.platform = platform
 
+    def __repr__(self):
+        return f"User: {self.uid}, PF: {self.platform}"
+
 
 class UserData:
     au: ApexUser
@@ -16,3 +19,6 @@ class UserData:
         self.au = au
         self.rank = rank
         self.lastUpdate = lastUpdate
+
+    def __repr__(self):
+        return f"AU: {self.au}, Rank: {self.rank}, Time: {self.lastUpdate}"
