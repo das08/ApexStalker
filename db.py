@@ -13,6 +13,21 @@ def createUserTable():
     conn.close()
 
 
+def selectUID(tableName: str, uid: str):
+    conn = sqlite3.connect(DBNAME)
+    cur = conn.cursor()
+
+    if uid != uid:
+        cur.execute(f"SELECT * FROM {tableName} WHERE uid = '{uid}'")
+    else:
+        cur.execute(f"SELECT * FROM {tableName}")
+    res = cur.fetchall()
+
+    conn.commit()
+    conn.close()
+    return res
+
+
 def insert(tableName: str, kv: dict, upSert=False):
     conn = sqlite3.connect(DBNAME)
     cur = conn.cursor()
@@ -39,6 +54,16 @@ def insert(tableName: str, kv: dict, upSert=False):
         cur.execute(f"REPLACE INTO {tableName} values({valsStmt})")
     else:
         cur.execute(f"INSERT INTO {tableName} values({valsStmt})")
+
+    conn.commit()
+    conn.close()
+
+
+def delete(tableName: str, uid: str):
+    conn = sqlite3.connect(DBNAME)
+    cur = conn.cursor()
+
+    cur.execute(f"DELETE FROM {tableName} where uid = '{uid}'")
 
     conn.commit()
     conn.close()
