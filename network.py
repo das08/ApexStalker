@@ -5,6 +5,7 @@ from os.path import join, dirname
 from dotenv import load_dotenv
 
 from model import UserData, ApexUser
+from settings import API_ENDPOINT, API_KEY
 
 load_dotenv(verbose=True)
 
@@ -13,8 +14,6 @@ load_dotenv(dotenv_path)
 
 
 def fetchUserData(au: ApexUser) -> dict:
-    API_ENDPOINT = os.environ.get("API_ENDPOINT")
-    API_KEY = os.environ.get("API_KEY")
     res = requests.get(f"{API_ENDPOINT}/standard/profile/{au.platform}/{au.uid}?TRN-Api-Key={API_KEY}")
 
     if res.status_code != 200:
