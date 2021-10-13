@@ -12,6 +12,9 @@ def checkUpdate(au: ApexUser):
         newRecord: UserData
         oldRecord: UserData
 
+        # Get oldRecord
+        res = selectUID("user_data", "08das")
+
         userData = ud["user_data"]
         newRecord = userData
         insert("user_data",
@@ -21,7 +24,6 @@ def checkUpdate(au: ApexUser):
                 "last_update": userData.lastUpdate
                 }, upSert=True)
 
-        res = selectUID("user_data", "08das")
         if len(res) != 0:
             oldRecord = UserData(userData.au, rank=res[0][2], lastUpdate=res[0][3])
             # oldRecord.lastUpdate = 1634124350
