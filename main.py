@@ -1,8 +1,9 @@
 from discordwebhook import Discord
 from db import insert, selectUID
 from model import ApexUser, UserData
-from network import fetchUserData
+from network import fetchUserData, postRankUpdate
 from settings import DISCORD_ENDPOINT
+import datetime
 
 
 def checkUpdate(au: ApexUser):
@@ -34,6 +35,7 @@ def checkUpdate(au: ApexUser):
                 print("posted")
                 discord.post(
                     content=f"{newRecord.au.uid} のランクが上がりました！ {oldRecord.rank}→{newRecord.rank} \N{SMILING FACE WITH OPEN MOUTH AND TIGHTLY-CLOSED EYES}")
+                postRankUpdate(newRecord.au.uid, datetime.datetime.now(), oldRecord.rank, newRecord.rank)
 
 
 def main():

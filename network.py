@@ -5,7 +5,7 @@ from os.path import join, dirname
 from dotenv import load_dotenv
 
 from model import UserData, ApexUser
-from settings import API_ENDPOINT, API_KEY
+from settings import API_ENDPOINT, API_KEY, TINAX_API
 
 load_dotenv(verbose=True)
 
@@ -24,4 +24,11 @@ def fetchUserData(au: ApexUser) -> dict:
     timestamp = int(round(datetime.datetime.now().timestamp()))
     return {"status": res.status_code, "user_data": UserData(au, int(response["data"]["segments"][0]["stats"]["level"]["value"]), timestamp)}
 
+def postRankUpdate(player_name: str, time: datetime.datetime, old_rank: int, new_rank: int) -> None:
+    return requests.post(TINAX_API+"/rank/register", json={
+        'player_name': player_name,
+        'timestamp': int(time.timestamp()),
+        'old_rank': old_rank,
+        'new_rank': new_rank
+    })
 
