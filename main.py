@@ -65,13 +65,13 @@ def checkUpdate(au: ApexUser):
 
 def getRankTier(rank: int):
     if rank < 1200:
-        return "<:bronze:910106036197797938>"
+        return "<:bronze:910108271828942848>"
     elif rank < 2800:
-        return "<:silver:910102394275233832>"
+        return "<:silver:910108271396921396>"
     elif rank < 4800:
-        return "<:gold:910106036051009556>"
+        return "<:gold:910108271577296947>"
     else:
-        return "<:platinum:910106036055179294>"
+        return "<:platinum:910108271682138112>"
 
 def main():
     allUserList = []
