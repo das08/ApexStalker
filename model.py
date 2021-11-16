@@ -12,13 +12,17 @@ class ApexUser:
 
 class UserData:
     au: ApexUser
-    rank: int
+    level: int
+    trioRank: int
+    arenaRank: int
     lastUpdate: int  # timestamp
 
-    def __init__(self, au: ApexUser, rank: int, lastUpdate: int):
+    def __init__(self, au: ApexUser, level: int, trioRank: int, arenaRank: int, lastUpdate: int):
         self.au = au
-        self.rank = rank
+        self.level = level
+        self.trioRank = trioRank
+        self.arenaRank = arenaRank
         self.lastUpdate = lastUpdate
 
     def __repr__(self):
-        return f"AU: {self.au}, Rank: {self.rank}, Time: {self.lastUpdate}"
+        return f"AU: {self.au}, Level: {self.level}, trioRank: {self.trioRank}, arenaRank: {self.arenaRank}, Time: {self.lastUpdate}"

@@ -21,29 +21,64 @@ def checkUpdate(au: ApexUser):
         insert("user_data",
                {"uid": userData.au.uid,
                 "platform": userData.au.platform,
-                "rank": userData.rank,
+                "level": userData.level,
+                "trio_rank": userData.trioRank,
+                "arena_rank": userData.arenaRank,
                 "last_update": userData.lastUpdate
                 }, upSert=True)
 
         if len(res) != 0:
-            oldRecord = UserData(userData.au, rank=res[0][2], lastUpdate=res[0][3])
-            # oldRecord.lastUpdate = 1634124350
-            # oldRecord.rank = 170
+            oldRecord = UserData(userData.au, level=res[0][2], trioRank=res[0][3], arenaRank=res[0][4],
+                                 lastUpdate=res[0][5])
             print("NR", newRecord)
             print("OR", oldRecord)
-            if newRecord.lastUpdate > oldRecord.lastUpdate and newRecord.rank > oldRecord.rank:
-                print("posted")
-                discord.post(
-                    content=f"{newRecord.au.uid} のランクが上がりました！ {oldRecord.rank}→{newRecord.rank} \N{SMILING FACE WITH OPEN MOUTH AND TIGHTLY-CLOSED EYES}")
-                postRankUpdate(newRecord.au.uid, datetime.datetime.now(), oldRecord.rank, newRecord.rank)
+            hasUpdate = False
+            messageFields = []
+            if newRecord.lastUpdate > oldRecord.lastUpdate and newRecord.level > oldRecord.level:
+                hasUpdate = True
+                messageFields.append({"name": "レベル", "value": f"{oldRecord.level}→{newRecord.level}:laughing:"})
+                print("level up")
+                # discord.post(
+                #     content=f"{newRecord.au.uid} のレベルが上がりました！ {oldRecord.level}→{newRecord.level} \N{SMILING FACE WITH OPEN MOUTH AND TIGHTLY-CLOSED EYES}")
+                postRankUpdate(newRecord.au.uid, datetime.datetime.now(), oldRecord.level, newRecord.level)
+            if newRecord.lastUpdate > oldRecord.lastUpdate and newRecord.trioRank != oldRecord.trioRank:
+                hasUpdate = True
+                messageFields.append({"name": "Trioランク", "value": f"{getRankTier(oldRecord.trioRank)}{oldRecord.trioRank}→{getRankTier(newRecord.trioRank)}{newRecord.trioRank}"})
+                print("trio up")
+            if newRecord.lastUpdate > oldRecord.lastUpdate and newRecord.arenaRank != oldRecord.arenaRank:
+                hasUpdate = True
+                messageFields.append({"name": "Trioランク", "value": f"{getRankTier(oldRecord.arenaRank)}{oldRecord.arenaRank}→{getRankTier(newRecord.arenaRank)}{newRecord.arenaRank}"})
+                print("arena up")
 
+            if hasUpdate:
+                discord.post(
+                    embeds=[
+                        {
+                            "author": {
+                                "name": f"==== {newRecord.au.uid}の戦績変化 ====",
+                            },
+                            "fields": messageFields,
+                        }
+                    ],
+                )
+
+
+def getRankTier(rank: int):
+    if rank < 1200:
+        return "<:bronze:910106036197797938>"
+    elif rank < 2800:
+        return "<:silver:910102394275233832>"
+    elif rank < 4800:
+        return "<:gold:910106036051009556>"
+    else:
+        return "<:platinum:910106036055179294>"
 
 def main():
     allUserList = []
     res = selectUID("user_data", "")
     for i in range(len(res)):
-        uid, pf, rank, lu = res[i]
-        allUserList.append(UserData(ApexUser(uid, pf), rank, lu))
+        uid, pf, level, trioRank, arenaRank, lu = res[i]
+        allUserList.append(UserData(ApexUser(uid, pf), level, trioRank, arenaRank, lu))
 
     for i in range(len(allUserList)):
         checkUpdate(allUserList[i].au)

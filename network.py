@@ -20,9 +20,12 @@ def fetchUserData(au: ApexUser) -> dict:
         return {"status": res.status_code, "user_data": None}
 
     response = res.json()
+    level = int(response["data"]["segments"][0]["stats"]["level"]["value"])
+    trioRank = int(response["data"]["segments"][0]["stats"]["rankScore"]["value"])
+    arenaRank = int(response["data"]["segments"][0]["stats"]["arenaRankScore"]["value"])
 
     timestamp = int(round(datetime.datetime.now().timestamp()))
-    return {"status": res.status_code, "user_data": UserData(au, int(response["data"]["segments"][0]["stats"]["level"]["value"]), timestamp)}
+    return {"status": res.status_code, "user_data": UserData(au, level, trioRank, arenaRank, timestamp)}
 
 def postRankUpdate(player_name: str, time: datetime.datetime, old_rank: int, new_rank: int) -> None:
     return requests.post(TINAX_API+"/rank/register", json={

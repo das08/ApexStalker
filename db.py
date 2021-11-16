@@ -7,7 +7,7 @@ def createUserTable():
     conn = sqlite3.connect(DBNAME)
     cur = conn.cursor()
 
-    cur.execute("create table user_data(uid string primary key, platform string, rank integer, last_update number);")
+    cur.execute("create table user_data(uid string primary key, platform string, level integer, trio_rank integer, arena_rank integer, last_update number);")
 
     conn.commit()
     conn.close()
