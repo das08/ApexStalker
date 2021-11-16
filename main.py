@@ -47,7 +47,7 @@ def checkUpdate(au: ApexUser):
                 print("trio up")
             if newRecord.lastUpdate > oldRecord.lastUpdate and newRecord.arenaRank != oldRecord.arenaRank:
                 hasUpdate = True
-                messageFields.append({"name": "Trioランク", "value": f"{getRankTier(oldRecord.arenaRank)}{oldRecord.arenaRank}→{getRankTier(newRecord.arenaRank)}{newRecord.arenaRank}"})
+                messageFields.append({"name": "Arenaランク", "value": f"{getRankTier(oldRecord.arenaRank)}{oldRecord.arenaRank}→{getRankTier(newRecord.arenaRank)}{newRecord.arenaRank}"})
                 print("arena up")
 
             if hasUpdate:
