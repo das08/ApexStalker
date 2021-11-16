@@ -38,25 +38,24 @@ def checkUpdate(au: ApexUser):
                 hasUpdate = True
                 messageFields.append({"name": "レベル", "value": f"{oldRecord.level}→{newRecord.level}:laughing:"})
                 print("level up")
-                # discord.post(
-                #     content=f"{newRecord.au.uid} のレベルが上がりました！ {oldRecord.level}→{newRecord.level} \N{SMILING FACE WITH OPEN MOUTH AND TIGHTLY-CLOSED EYES}")
-                # postRankUpdate(newRecord.au.uid, datetime.datetime.now(), oldRecord.level, newRecord.level)
+                try:
+                    postRankUpdate(newRecord.au.uid, datetime.datetime.now(), oldRecord.level, newRecord.level)
+                except:
+                    print("error tinax api")
             if newRecord.lastUpdate > oldRecord.lastUpdate and newRecord.trioRank != oldRecord.trioRank:
                 hasUpdate = True
-                messageFields.append({"name": "Trioランク", "value": f"{getRankTier(oldRecord.trioRank)}{oldRecord.trioRank}→{getRankTier(newRecord.trioRank)}{newRecord.trioRank}  {getRankDiff(oldRecord.trioRank, newRecord.trioRank)}"})
+                messageFields.append({"name": "トリオRank", "value": f"{getRankTier(oldRecord.trioRank)}{oldRecord.trioRank}→{getRankTier(newRecord.trioRank)}{newRecord.trioRank}  {getRankDiff(oldRecord.trioRank, newRecord.trioRank)}"})
                 print("trio up")
             if newRecord.lastUpdate > oldRecord.lastUpdate and newRecord.arenaRank != oldRecord.arenaRank:
                 hasUpdate = True
-                messageFields.append({"name": "Arenaランク", "value": f"{getRankTier(oldRecord.arenaRank)}{oldRecord.arenaRank}→{getRankTier(newRecord.arenaRank)}{newRecord.arenaRank}  {getRankDiff(oldRecord.arenaRank, newRecord.arenaRank)}"})
+                messageFields.append({"name": "アリーナRank", "value": f"{getRankTier(oldRecord.arenaRank)}{oldRecord.arenaRank}→{getRankTier(newRecord.arenaRank)}{newRecord.arenaRank}  {getRankDiff(oldRecord.arenaRank, newRecord.arenaRank)}"})
                 print("arena up")
 
             if hasUpdate:
                 discord.post(
                     embeds=[
                         {
-                            "author": {
-                                "name": f"==== {newRecord.au.uid}の戦績変化 ====",
-                            },
+                            "title": f"==== {newRecord.au.uid}の戦績変化 ====",
                             "fields": messageFields,
                         }
                     ],
