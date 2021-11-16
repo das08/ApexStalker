@@ -40,14 +40,14 @@ def checkUpdate(au: ApexUser):
                 print("level up")
                 # discord.post(
                 #     content=f"{newRecord.au.uid} のレベルが上がりました！ {oldRecord.level}→{newRecord.level} \N{SMILING FACE WITH OPEN MOUTH AND TIGHTLY-CLOSED EYES}")
-                postRankUpdate(newRecord.au.uid, datetime.datetime.now(), oldRecord.level, newRecord.level)
+                # postRankUpdate(newRecord.au.uid, datetime.datetime.now(), oldRecord.level, newRecord.level)
             if newRecord.lastUpdate > oldRecord.lastUpdate and newRecord.trioRank != oldRecord.trioRank:
                 hasUpdate = True
-                messageFields.append({"name": "Trioランク", "value": f"{getRankTier(oldRecord.trioRank)}{oldRecord.trioRank}→{getRankTier(newRecord.trioRank)}{newRecord.trioRank}"})
+                messageFields.append({"name": "Trioランク", "value": f"{getRankTier(oldRecord.trioRank)}{oldRecord.trioRank}→{getRankTier(newRecord.trioRank)}{newRecord.trioRank}  {getRankDiff(oldRecord.trioRank, newRecord.trioRank)}"})
                 print("trio up")
             if newRecord.lastUpdate > oldRecord.lastUpdate and newRecord.arenaRank != oldRecord.arenaRank:
                 hasUpdate = True
-                messageFields.append({"name": "Arenaランク", "value": f"{getRankTier(oldRecord.arenaRank)}{oldRecord.arenaRank}→{getRankTier(newRecord.arenaRank)}{newRecord.arenaRank}"})
+                messageFields.append({"name": "Arenaランク", "value": f"{getRankTier(oldRecord.arenaRank)}{oldRecord.arenaRank}→{getRankTier(newRecord.arenaRank)}{newRecord.arenaRank}  {getRankDiff(oldRecord.arenaRank, newRecord.arenaRank)}"})
                 print("arena up")
 
             if hasUpdate:
@@ -72,6 +72,13 @@ def getRankTier(rank: int):
         return "<:gold:910108271577296947>"
     else:
         return "<:platinum:910108271682138112>"
+
+def getRankDiff(old: int, new: int):
+    rankDiff = new - old
+    if rankDiff < 0:
+        return f"({rankDiff})"
+    else:
+        return f"(+{rankDiff})"
 
 def main():
     allUserList = []
