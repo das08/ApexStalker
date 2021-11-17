@@ -1,7 +1,7 @@
 from discordwebhook import Discord
 from db import insert, selectUID
 from model import ApexUser, UserData
-from network import fetchUserData, postRankUpdate
+from network import fetchUserData, postLevelUpdate, postRankUpdate
 from settings import DISCORD_ENDPOINT
 import datetime
 
@@ -39,17 +39,25 @@ def checkUpdate(au: ApexUser):
                 messageFields.append({"name": "レベル", "value": f"{oldRecord.level}→{newRecord.level}:laughing:"})
                 print("level up")
                 try:
-                    postRankUpdate(newRecord.au.uid, datetime.datetime.now(), oldRecord.level, newRecord.level)
+                    postLevelUpdate(newRecord.au.uid, datetime.datetime.now(), oldRecord.level, newRecord.level)
                 except:
-                    print("error tinax api")
+                    print("error tinax api (level)")
             if newRecord.lastUpdate > oldRecord.lastUpdate and newRecord.trioRank != oldRecord.trioRank:
                 hasUpdate = True
                 messageFields.append({"name": "トリオRank", "value": f"{getRankTier(oldRecord.trioRank)}{oldRecord.trioRank}→{getRankTier(newRecord.trioRank)}{newRecord.trioRank}  {getRankDiff(oldRecord.trioRank, newRecord.trioRank)}"})
                 print("trio up")
+                try:
+                    postRankUpdate(newRecord.au.uid, datetime.datetime.now(), oldRecord.trioRank, getRankName(oldRecord.trioRank), newRecord.trioRank, getRankName(newRecord.trioRank), 'trio')
+                except:
+                    print('error tinax api (trio rank)')
             if newRecord.lastUpdate > oldRecord.lastUpdate and newRecord.arenaRank != oldRecord.arenaRank:
                 hasUpdate = True
                 messageFields.append({"name": "アリーナRank", "value": f"{getRankTier(oldRecord.arenaRank)}{oldRecord.arenaRank}→{getRankTier(newRecord.arenaRank)}{newRecord.arenaRank}  {getRankDiff(oldRecord.arenaRank, newRecord.arenaRank)}"})
                 print("arena up")
+                try:
+                    postRankUpdate(newRecord.au.uid, datetime.datetime.now(), oldRecord.arenaRank, getRankName(oldRecord.arenaRank), newRecord.arenaRank, getRankName(newRecord.arenaRank), 'arena')
+                except:
+                    print('error tinax api (arena rank)')
 
             if hasUpdate:
                 discord.post(
@@ -71,6 +79,16 @@ def getRankTier(rank: int):
         return "<:gold:910108271577296947>"
     else:
         return "<:platinum:910108271682138112>"
+
+def getRankName(rank: int) -> str:
+    if rank < 1200:
+        return "bronze"
+    elif rank < 2800:
+        return "silver"
+    elif rank < 4800:
+        return "gold"
+    else:
+        return "platinum"
 
 def getRankDiff(old: int, new: int):
     rankDiff = new - old
