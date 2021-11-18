@@ -52,7 +52,7 @@ def checkUpdate(au: ApexUser):
                     print('error tinax api (trio rank)')
             if newRecord.lastUpdate > oldRecord.lastUpdate and newRecord.arenaRank != oldRecord.arenaRank:
                 hasUpdate = True
-                messageFields.append({"name": "アリーナRank", "value": f"{getRankTier(oldRecord.arenaRank)}{oldRecord.arenaRank}→{getRankTier(newRecord.arenaRank)}{newRecord.arenaRank}  {getRankDiff(oldRecord.arenaRank, newRecord.arenaRank)}"})
+                messageFields.append({"name": "アリーナRank", "value": f"{getArenaRankTier(oldRecord.arenaRank)}{oldRecord.arenaRank}→{getArenaRankTier(newRecord.arenaRank)}{newRecord.arenaRank}  {getRankDiff(oldRecord.arenaRank, newRecord.arenaRank)}"})
                 print("arena up")
                 try:
                     postRankUpdate(newRecord.au.uid, datetime.datetime.now(), oldRecord.arenaRank, getRankName(oldRecord.arenaRank), newRecord.arenaRank, getRankName(newRecord.arenaRank), 'arena')
@@ -74,6 +74,16 @@ def getRankTier(rank: int):
     if rank < 1200:
         return "<:bronze:910108271828942848>"
     elif rank < 2800:
+        return "<:silver:910108271396921396>"
+    elif rank < 4800:
+        return "<:gold:910108271577296947>"
+    else:
+        return "<:platinum:910108271682138112>"
+
+def getArenaRankTier(rank: int):
+    if rank < 1600:
+        return "<:bronze:910108271828942848>"
+    elif rank < 3200:
         return "<:silver:910108271396921396>"
     elif rank < 4800:
         return "<:gold:910108271577296947>"
