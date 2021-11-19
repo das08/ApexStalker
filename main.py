@@ -14,7 +14,7 @@ def checkUpdate(au: ApexUser):
         oldRecord: UserData
 
         # Get oldRecord
-        res = selectUID("user_data", "08das")
+        res = selectUID("user_data", au.uid)
 
         userData = ud["user_data"]
         newRecord = userData
