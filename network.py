@@ -20,6 +20,11 @@ def fetchUserData(au: ApexUser) -> dict:
         return {"status": res.status_code, "user_data": None}
 
     response = res.json()
+    uid = response["data"]["platformInfo"]["platformUserId"]
+
+    if uid != au.uid:
+        return {"status": 404, "user_data": None}
+
     level = int(response["data"]["segments"][0]["stats"]["level"]["value"])
     trioRank = int(response["data"]["segments"][0]["stats"]["rankScore"]["value"])
     arenaRank = int(response["data"]["segments"][0]["stats"]["arenaRankScore"]["value"])

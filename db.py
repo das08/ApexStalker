@@ -17,7 +17,7 @@ def selectUID(tableName: str, uid: str):
     conn = sqlite3.connect(DBNAME)
     cur = conn.cursor()
 
-    if uid != uid:
+    if uid != "":
         cur.execute(f"SELECT * FROM {tableName} WHERE uid = '{uid}'")
     else:
         cur.execute(f"SELECT * FROM {tableName}")

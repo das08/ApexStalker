@@ -9,7 +9,7 @@ import datetime
 def checkUpdate(au: ApexUser):
     discord = Discord(url=DISCORD_ENDPOINT)
     ud = fetchUserData(au)
-    if ud["status"] == 200:
+    if ud["status"] == 200 and ud["user_data"] is not None:
         newRecord: UserData
         oldRecord: UserData
 
