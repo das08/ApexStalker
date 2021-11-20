@@ -63,7 +63,7 @@ def checkUpdate(au: ApexUser):
                 discord.post(
                     embeds=[
                         {
-                            "title": f":confetti_ball: {newRecord.au.uid}の戦績変化 :tada:\n",
+                            "title": f"\N{Confetti Ball} {newRecord.au.uid}の戦績変化 \N{Party Popper}\n",
                             "fields": messageFields,
                         }
                     ],
