@@ -60,6 +60,7 @@ def checkUpdate(au: ApexUser):
                     print('error tinax api (arena rank)')
 
             if hasUpdate:
+                messageFields[-1]["value"] += "\n\n [グラフを見る](https://oneapex.tinax.work/web/level)"
                 discord.post(
                     embeds=[
                         {
